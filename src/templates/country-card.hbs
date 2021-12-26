@@ -4,4 +4,4 @@
 </div>
 <p><b>Capital:</b> {{capital}}</p>
 <p><b>Population:</b> {{population}}</p>
-<p><b>Languages:</b> {{#each languages}}{{this}}, {{/each}}</p>
+<p><b>Languages:</b> {{#each languages}}{{this}}{{#unless @last}},{{/unless}} {{/each}}</p>
