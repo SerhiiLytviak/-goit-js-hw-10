@@ -1,9 +1,7 @@
 var debounce = require('lodash.debounce');
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import './css/styles.css';
 import API from './fetchCountries';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-// import countryCardTpl from './country-card';
-// const Handlebars = require('handlebars');
 
 const DEBOUNCE_DELAY = 300;
 const refs = {
@@ -24,45 +22,50 @@ function onSearch(e) {
   }
 
   API.fetchCountries(searchQuery)
-    .then(renderCountry)
+    .then(renderItems)
     .catch(error => console.log(error));
 }
 
-function renderCountry(countries) {
-  console.log(`render country`, countries);
+function renderItems(countries) {
   refs.countryInfo.innerHTML = '';
   refs.countryList.innerHTML = '';
+
   if (countries.length === 1) {
-    refs.countryInfo.insertAdjacentHTML(
-      'afterbegin',
-      `
-            <div class="country-header">
-                <img src="${countries[0].flags.svg}" alt="flag" width="30" heigth="50">
-                <h2>${countries[0].name.official}</h2>
-            </div>
-                <p>Capital: ${countries[0].capital}</p>
-                <p>Population: ${countries[0].population}</p>
-                <p>Languages: ${Object.values(countries[0].languages)}</p>
-    `,
-    );
+    renderCountryInfo(countries);
   } else if (countries.length > 10) {
     Notify.info('Too many matches found. Please enter a more specific name.');
   } else if (1 < countries.length <= 10) {
-    // console.log(countries.length);
+    renderCountryList(countries);
+  }
+}
 
-    console.log(refs.countryList);
-    countries.map(country => {
-      refs.countryList.insertAdjacentHTML(
-        'afterbegin',
-        `<li>
+function renderCountryInfo(country) {
+  return refs.countryInfo.insertAdjacentHTML(
+    'afterbegin',
+    `
+            <div class="country-header">
+                <img src="${country[0].flags.svg}" alt="flag" width="50" heigth="30">
+                <h1 class="country-name">${country[0].name.official}</h1>
+            </div>
+                <p>Capital: ${country[0].capital}</p>
+                <p>Population: ${country[0].population}</p>
+                <p>Languages: ${Object.values(country[0].languages)}</p>
+    `,
+  );
+}
+
+function renderCountryList(countries) {
+  countries.map(country => {
+    refs.countryList.insertAdjacentHTML(
+      'afterbegin',
+      `<li>
                <div class="country-header">
-                   <img src="${country.flags.svg}" alt="flag" width="30" heigth="50">
-                   <h2>${country.name.official}</h2>
+                   <img src="${country.flags.svg}" alt="flag" width="40" height="25">
+                   <h3 class="country-name">${country.name.official}</h3>
                </div>
            </li>`,
-      );
-    });
-  }
+    );
+  });
 }
 //   }
 //   const markUp = countryCardTpl(countries);
