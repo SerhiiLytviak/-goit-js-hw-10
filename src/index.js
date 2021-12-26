@@ -47,9 +47,9 @@ function renderCountryInfo(country) {
                 <img src="${country[0].flags.svg}" alt="flag" width="50" heigth="30">
                 <h1 class="country-name">${country[0].name.official}</h1>
             </div>
-                <p>Capital: ${country[0].capital}</p>
-                <p>Population: ${country[0].population}</p>
-                <p>Languages: ${Object.values(country[0].languages)}</p>
+                <p><b>Capital:</b> ${country[0].capital}</p>
+                <p><b>Population:</b> ${country[0].population}</p>
+                <p><b>Languages:</b> ${Object.values(country[0].languages)}</p>
     `,
   );
 }
@@ -67,6 +67,7 @@ function renderCountryList(countries) {
     );
   });
 }
+
 //   }
 //   const markUp = countryCardTpl(countries);
 //   refs.countryInfo.innerHTML = markUp;
